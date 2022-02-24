@@ -9,7 +9,7 @@ User=root
 Restart=always
 RestartSec=5
 DynamicUser=true
-ExecStart=/usr/bin/ehco -C /root/ehco/config.json
+ExecStart=/usr/bin/ehco -C /etc/ehco/config.json
 
 [Install]
 WantedBy=multi-user.target
