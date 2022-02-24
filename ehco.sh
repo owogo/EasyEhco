@@ -84,7 +84,7 @@ function checknew() {
     Install_ct
     rm -rf /etc/ehco
     mv /tmp/ehco /etc/
-    systemctl restart ehco
+    systemctl restart ehco.service
   else
     exit 0
   fi
