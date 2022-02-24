@@ -1,27 +1,11 @@
 #!/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
 
 #	Github: https://github.com/owogo/easyehco
 #=================================================================
 ehco_conf_path="/etc/ehco/config.json"
 raw_conf_path="/etc/ehco/rawconf"
-#获取键盘输入
-get_char(){
-	SAVEDSTTY=`stty -g`
-	stty -echo
-	stty cbreak
-	dd if=/dev/tty bs=1 count=1 2> /dev/null
-	stty -raw
-	stty echo
-	stty $SAVEDSTTY
-}
 
-#定义一些颜色
-red='\033[0;31m'
-green='\033[0;32m'
-yellow='\033[0;33m'
-plain='\033[0m'
+
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Font_color_suffix="\033[0m"
 #确保本脚本在ROOT下运行
 [[ $EUID -ne 0 ]] && echo -e "[${red}错误${plain}]请以ROOT运行本脚本！" && exit 1
@@ -307,7 +291,6 @@ function read_d_ip() {
   echo -e "注: IP既可以是[远程机器/当前机器]的公网IP, 也可是以本机本地回环IP(即127.0.0.1)"
   echo -e "具体IP地址的填写, 取决于接收该流量的服务正在监听的IP"
   read -p "请输入: " flag_c
-  fi
 }
 function read_d_port() {
   echo -e "------------------------------------------------------------------"
@@ -339,12 +322,13 @@ function confstart() {
   \"relay_configs\": [" >>$ehco_conf_path
 }
 function multiconfstart() {
-  echo "        {   >>$ehco_conf_path
+  echo "        {   ">>$ehco_conf_path
 }
 function conflast() {
   echo "    ]
 }" >>$ehco_conf_path
 }
+
 function multiconflast() {
   if [ $i -eq $count_line ]; then
     echo "        }" >>$ehco_conf_path
@@ -442,10 +426,9 @@ cron_restart() {
   fi
 }
 
-echo && echo -e "                 ehco 一键安装配置脚本"${Red_font_prefix}[${shell_version}]${Font_color_suffix}"
-  功能: (1)tcp+udp不加密转发, (2)中转机加密转发, (3)落地机解密对接转发
+echo && echo -e "            ehco 一键安装配置脚本"${Red_font_prefix}[${shell_version}]${Font_color_suffix}"
+  功能: 1.tcp+udp不加密转发, 2.中转机加密转发, 3.落地机解密对接转发
   帮助文档：https://github.com/owogo/EasyEhco
- ${Green_font_prefix}0.${Font_color_suffix} 退出脚本
  ${Green_font_prefix}1.${Font_color_suffix} 安装 ehco
  ${Green_font_prefix}2.${Font_color_suffix} 更新 ehco
  ${Green_font_prefix}3.${Font_color_suffix} 卸载 ehco
@@ -461,11 +444,8 @@ echo && echo -e "                 ehco 一键安装配置脚本"${Red_font_prefi
  ${Green_font_prefix}10.${Font_color_suffix} ehco定时重启配置
 
 ————————————" && echo
-read -e -p " 请输入数字 [0-10]:" num
+read -e -p " 请输入数字 [1-10]:" num
 case "$num" in
-0)
-  exit
-  ;;
 1)
   Install_ct
   ;;
@@ -516,10 +496,7 @@ case "$num" in
 10)
   cron_restart
   ;;
-11)
-  cert
-  ;;
 *)
-  echo "请输入正确数字 [0-10]"
+  echo "请输入正确数字"
   ;;
 esac
