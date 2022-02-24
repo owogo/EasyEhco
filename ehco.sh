@@ -132,7 +132,6 @@ function check_nor_file() {
   mv ehco /usr/bin
   wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/ehco.service && chmod -R 777 ehco.service && mv ehco.service /usr/lib/systemd/system
   mkdir /etc/ehco && wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/config.json && mv config.json /etc/ehco && chmod -R 777 /etc/ehco
-
   systemctl enable ehco && systemctl restart ehco
   echo "------------------------------"
   if test -a /usr/bin/ehco -a /usr/lib/systemctl/ehco.service -a /etc/ehco/config.json; then
