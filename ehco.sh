@@ -3,8 +3,8 @@ Info="${Green_font_prefix}[信息]${Font_color_suffix}"
 Error="${Red_font_prefix}[错误]${Font_color_suffix}"
 #	Github: https://github.com/owogo/easyehco
 #=================================================================
-ehco_conf_path="/root/ehco/config.json"
-raw_conf_path="/root/ehco/rawconf"
+ehco_conf_path="/etc/ehco/config.json"
+raw_conf_path="/etc/ehco/rawconf"
 red='\033[0;31m'
 plain='\033[0m'
 
@@ -80,9 +80,9 @@ function checknew() {
   echo -n 是否更新\(y/n\)\:
   read checknewnum
   if test $checknewnum = "y"; then
-    cp -r /root/ehco /tmp/
+    cp -r /etc/ehco /tmp/
     Install_ct
-    rm -rf /root/ehco
+    rm -rf /etc/ehco
     mv /tmp/ehco /etc/
     systemctl restart ehco.service
   else
@@ -110,7 +110,7 @@ function check_nor_file() {
   rm -rf "$(pwd)"/ehco
   rm -rf "$(pwd)"/ehco.service
   rm -rf "$(pwd)"/config.json
-  rm -rf /root/ehco
+  rm -rf /etc/ehco
   rm -rf $full_sysctl_dir
   rm -rf /usr/bin/ehco
 }
@@ -124,12 +124,15 @@ function check_nor_file() {
   chmod +x ehco
   mv ehco /usr/bin
   wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/ehco.service && mv ehco.service $sysctl_dir
-  mkdir /root/ehco && wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/config.json && mv config.json /root/ehco
+  mkdir /etc/ehco && wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/config.json && mv config.json /etc/ehco
   systemctl daemon-reload
   systemctl start ehco.service
   systemctl enable ehco.service
+  systemctl restart ehco.service
+  echo ""
+  clear
   echo "------------------------------"
-  if test -a /usr/bin/ehco -a $full_sysctl_dir -a /root/ehco/config.json; then
+  if test -a /usr/bin/ehco -a $full_sysctl_dir -a /etc/ehco/config.json; then
     echo "ehco安装成功"
     rm -rf "$(pwd)"/ehco
     rm -rf "$(pwd)"/ehco.service
@@ -145,7 +148,7 @@ function check_nor_file() {
 function Uninstall_ct() {
   rm -rf /usr/bin/ehco
   rm -rf $full_sysctl_dir
-  rm -rf /root/ehco
+  rm -rf /etc/ehco
   rm -rf "$(pwd)"/ehco.sh
   echo "ehco已经成功删除"
 }
@@ -158,7 +161,7 @@ function Stop_ct() {
   echo "已停止"
 }
 function Restart_ct() {
-  rm -rf /root/ehco/config.json
+  rm -rf /etc/ehco/config.json
   confstart
   writeconf
   conflast
@@ -479,7 +482,7 @@ case "$num" in
   ;;
 7)
   rawconf
-  rm -rf /root/ehco/config.json
+  rm -rf /etc/ehco/config.json
   confstart
   writeconf
   conflast
@@ -496,7 +499,7 @@ case "$num" in
   read -p "请输入你要删除的配置编号：" numdelete
   if echo $numdelete | grep -q '[0-9]'; then
     sed -i "${numdelete}d" $raw_conf_path
-    rm -rf /root/ehco/config.json
+    rm -rf /etc/ehco/config.json
     confstart
     writeconf
     conflast
