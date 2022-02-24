@@ -74,7 +74,7 @@ check_sys(){
 }
 
 function checknew() {
-  checknew=$(ehco -V 2>&1 | awk '{print $2}')
+  checknew=$(ehco -v 2>&1 | grep "Version=")
   check_new_ver
   echo "你的ehco版本为:""$checknew"""
   echo -n 是否更新\(y/n\)\:
