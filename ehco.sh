@@ -115,11 +115,13 @@ function check_nor_file() {
   rm -rf ehco_"$ct_new_ver"_linux_"$bit"
   wget  --no-check-certificate https://ghproxy.com/https://github.com/Ehco1996/ehco/releases/download/v"$ct_new_ver"/ehco_"$ct_new_ver"_linux_"$bit" -O ehco
   chmod +x ehco
-  mv ehco /usr/bin/ehco
+  mv ehco /usr/bin
   chmod -R 777 /usr/bin/ehco
   wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/ehco.service && chmod -R 777 ehco.service && mv ehco.service /usr/lib/systemd/system
   mkdir /etc/ehco && wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/config.json && mv config.json /etc/ehco && chmod -R 777 /etc/ehco
-  systemctl enable ehco && systemctl restart ehco
+  systemctl daemon-reload
+  systemctl start ehco.service
+  systemctl enable ehco.service
   echo "------------------------------"
   if test -a /usr/bin/ehco -a /usr/lib/systemctl/ehco.service -a /etc/ehco/config.json; then
     echo "ehco安装成功"
@@ -142,11 +144,11 @@ function Uninstall_ct() {
   echo "ehco已经成功删除"
 }
 function Start_ct() {
-  systemctl start ehco
+  systemctl start ehco.service
   echo "已启动"
 }
 function Stop_ct() {
-  systemctl stop ehco
+  systemctl stop ehco.service
   echo "已停止"
 }
 function Restart_ct() {
@@ -154,7 +156,7 @@ function Restart_ct() {
   confstart
   writeconf
   conflast
-  systemctl restart ehco
+  systemctl restart ehco.service
   echo "已重读配置并重启"
 }
 function read_protocol() {
@@ -413,12 +415,12 @@ cron_restart() {
     if [ "$numcrontype" == "1" ]; then
       echo -e "-----------------------------------"
       read -p "每？小时重启: " cronhr
-      echo "0 0 */$cronhr * * ? * systemctl restart ehco" >>/etc/crontab
+      echo "0 0 */$cronhr * * ? * systemctl restart ehco.service" >>/etc/crontab
       echo -e "定时重启设置成功！"
     elif [ "$numcrontype" == "2" ]; then
       echo -e "-----------------------------------"
       read -p "每日？点重启: " cronhr
-      echo "0 0 $cronhr * * ? systemctl restart ehco" >>/etc/crontab
+      echo "0 0 $cronhr * * ? systemctl restart ehco.service" >>/etc/crontab
       echo -e "定时重启设置成功！"
     else
       echo "type error, please try again"
@@ -477,7 +479,7 @@ case "$num" in
   confstart
   writeconf
   conflast
-  systemctl restart ehco
+  systemctl restart ehco.service
   echo -e "配置已生效，当前配置如下"
   echo -e "--------------------------------------------------------"
   show_all_conf
@@ -494,7 +496,7 @@ case "$num" in
     confstart
     writeconf
     conflast
-    systemctl restart ehco
+    systemctl restart ehco.service
     echo -e "配置已删除，服务已重启"
   else
     echo "请输入正确数字"
