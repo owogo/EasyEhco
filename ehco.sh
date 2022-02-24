@@ -331,13 +331,18 @@ function multiconfstart() {
   echo "        {   ">>$ehco_conf_path
 }
 function conflast() {
-  echo "    }
-   ]
+  echo "   ]
 }" >>$ehco_conf_path
 }
 
 function multiconflast() {
-  echo "        }," >>$ehco_conf_path
+  if [ $i -eq $count_line ]; then
+    echo "            ]
+        }" >>$ehco_conf_path
+  else
+    echo "            ]
+        }," >>$ehco_conf_path
+  fi
 }
 
 function writeconf() {
