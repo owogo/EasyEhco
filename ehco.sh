@@ -91,7 +91,7 @@ function checknew() {
 }
 
 function check_new_ver() {
-  ct_new_ver=$(wget --no-check-certificate -qO- -t2 -T3 https://git.googleone.workers.dev/repos/ehco1996/ehco/releases/latest | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g;s/v//g')
+  ct_new_ver=$(wget --no-check-certificate -qO- -t2 -T3 https://git.github.com/repos/ehco1996/ehco/releases/latest | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g;s/v//g')
   if [[ -z ${ct_new_ver} ]]; then
     ct_new_ver"1.1.1"
     echo -e "${Error} ehco 最新版本获取失败，正在下载v${ct_new_ver}版"
@@ -120,11 +120,11 @@ function check_nor_file() {
   check_sys
   check_new_ver
   rm -rf ehco_"$ct_new_ver"_linux_"$bit"
-  wget  --no-check-certificate https://ghproxy.com/https://github.com/Ehco1996/ehco/releases/download/v"$ct_new_ver"/ehco_"$ct_new_ver"_linux_"$bit" -O ehco
+  wget  --no-check-certificate https://github.com/Ehco1996/ehco/releases/download/v"$ct_new_ver"/ehco_"$ct_new_ver"_linux_"$bit" -O ehco
   chmod +x ehco
   mv ehco /usr/bin
-  wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/ehco.service && mv ehco.service $sysctl_dir
-  mkdir /etc/ehco && wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/config.json && mv config.json /etc/ehco
+  wget --no-check-certificate https://raw.githubusercontent.com/owogo/easyehco/master/ehco.service && mv ehco.service $sysctl_dir
+  mkdir /etc/ehco && wget --no-check-certificate https://raw.githubusercontent.com/owogo/easyehco/master/config.json && mv config.json /etc/ehco
   systemctl daemon-reload
   systemctl start ehco.service
   systemctl enable ehco.service
@@ -441,78 +441,91 @@ cron_restart() {
     exit
   fi
 }
+function start_menu(){
+    clear
+	echo && echo -e "ehco 一键安装配置脚本
+	  功能: 1.tcp+udp不加密转发, 2.中转机加密转发, 3.落地机解密对接转发
+	  帮助文档：https://github.com/owogo/EasyEhco
+	 ${Green_font_prefix}0.${Font_color_suffix} 退出脚本
+	 ${Green_font_prefix}1.${Font_color_suffix} 安装 ehco
+	 ${Green_font_prefix}2.${Font_color_suffix} 更新 ehco
+	 ${Green_font_prefix}3.${Font_color_suffix} 卸载 ehco
+	————————————
+	 ${Green_font_prefix}4.${Font_color_suffix} 启动 ehco
+	 ${Green_font_prefix}5.${Font_color_suffix} 停止 ehco
+	 ${Green_font_prefix}6.${Font_color_suffix} 重启 ehco
+	————————————
+	 ${Green_font_prefix}7.${Font_color_suffix} 新增ehco转发配置
+	 ${Green_font_prefix}8.${Font_color_suffix} 查看现有ehco配置
+	 ${Green_font_prefix}9.${Font_color_suffix} 删除一则ehco配置
+	————————————
+	 ${Green_font_prefix}10.${Font_color_suffix} ehco定时重启配置
 
-echo && echo -e "            ehco 一键安装配置脚本
-  功能: 1.tcp+udp不加密转发, 2.中转机加密转发, 3.落地机解密对接转发
-  帮助文档：https://github.com/owogo/EasyEhco
- ${Green_font_prefix}1.${Font_color_suffix} 安装 ehco
- ${Green_font_prefix}2.${Font_color_suffix} 更新 ehco
- ${Green_font_prefix}3.${Font_color_suffix} 卸载 ehco
-————————————
- ${Green_font_prefix}4.${Font_color_suffix} 启动 ehco
- ${Green_font_prefix}5.${Font_color_suffix} 停止 ehco
- ${Green_font_prefix}6.${Font_color_suffix} 重启 ehco
-————————————
- ${Green_font_prefix}7.${Font_color_suffix} 新增ehco转发配置
- ${Green_font_prefix}8.${Font_color_suffix} 查看现有ehco配置
- ${Green_font_prefix}9.${Font_color_suffix} 删除一则ehco配置
-————————————
- ${Green_font_prefix}10.${Font_color_suffix} ehco定时重启配置
-
-————————————" && echo
-read -e -p " 请输入数字 [1-10]:" num
-case "$num" in
-1)
-  Install_ct
-  ;;
-2)
-  checknew
-  ;;
-3)
-  Uninstall_ct
-  ;;
-4)
-  Start_ct
-  ;;
-5)
-  Stop_ct
-  ;;
-6)
-  Restart_ct
-  ;;
-7)
-  rawconf
-  rm -rf /etc/ehco/config.json
-  confstart
-  writeconf
-  conflast
-  systemctl restart ehco.service
-  echo -e "配置已生效，当前配置如下"
-  echo -e "--------------------------------------------------------"
-  show_all_conf
-  ;;
-8)
-  show_all_conf
-  ;;
-9)
-  show_all_conf
-  read -p "请输入你要删除的配置编号：" numdelete
-  if echo $numdelete | grep -q '[0-9]'; then
-    sed -i "${numdelete}d" $raw_conf_path
-    rm -rf /etc/ehco/config.json
-    confstart
-    writeconf
-    conflast
-    systemctl restart ehco.service
-    echo -e "配置已删除，服务已重启"
-  else
-    echo "请输入正确数字"
-  fi
-  ;;
-10)
-  cron_restart
-  ;;
-*)
-  echo "请输入正确数字"
-  ;;
-esac
+	————————————" && echo
+	read -e -p " 请输入数字 [1-10]:" num
+	case "$num" in
+	0)
+	  exit 1
+	  ;;
+	1)
+	  Install_ct
+	  start_menu
+	  ;;
+	2)
+	  checknew
+	  start_menu
+	  ;;
+	3)
+	  Uninstall_ct
+	  ;;
+	4)
+	  Start_ct
+	  ;;
+	5)
+	  Stop_ct
+	  ;;
+	6)
+	  Restart_ct
+	  start_menu
+	  ;;
+	7)
+	  rawconf
+	  rm -rf /etc/ehco/config.json
+	  confstart
+	  writeconf
+	  conflast
+	  systemctl restart ehco.service
+	  echo -e "配置已生效，当前配置如下"
+	  echo -e "--------------------------------------------------------"
+	  show_all_conf
+	  start_menu
+	  ;;
+	8)
+	  show_all_conf
+	  start_menu
+	  ;;
+	9)
+	  show_all_conf
+	  read -p "请输入你要删除的配置编号：" numdelete
+	  if echo $numdelete | grep -q '[0-9]'; then
+		sed -i "${numdelete}d" $raw_conf_path
+		rm -rf /etc/ehco/config.json
+		confstart
+		writeconf
+		conflast
+		systemctl restart ehco.service
+		echo -e "配置已删除，服务已重启"
+	  else
+		echo "请输入正确数字"
+	  fi
+	  ;;
+	10)
+	  cron_restart
+	  ;;
+	*)
+	  echo "请输入正确数字"
+	  start_menu
+	  ;;
+	esac
+}
+start_menu "first"
