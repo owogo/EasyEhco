@@ -444,7 +444,7 @@ cron_restart() {
 }
 function start_menu(){
     clear
-	echo && echo -e "ehco 一键安装配置脚本
+	echo && echo -e "        ehco 一键安装配置脚本
 	  功能: 1.tcp+udp不加密转发, 2.中转机加密转发, 3.落地机解密对接转发
 	  帮助文档：https://github.com/owogo/EasyEhco
 	 ${Green_font_prefix}0.${Font_color_suffix} 退出脚本
