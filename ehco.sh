@@ -111,7 +111,7 @@ function check_nor_file()
   rm -rf "$(pwd)"/ehco.service
   rm -rf "$(pwd)"/config.json
   rm -rf /etc/ehco
-  rm -rf full_sysctl_dir
+  rm -rf $full_sysctl_dir
   rm -rf /usr/bin/ehco
 }
  function Install_ct() {
