@@ -54,17 +54,17 @@ check_sys(){
 	
 	if [ $release = "Centos" ]
 	then
-		yum -y install wge		
+		yum -y install wget		
                 sysctl_dir="/usr/lib/systemd/system/"
 		full_sysctl_dir=${sysctl_dir}"ehco.service"
 	elif [ $release = "Debian" ]
 	then
-		apt-get install wget -		
+		apt-get install wget	
                 sysctl_dir="/etc/systemd/system/"
 		full_sysctl_dir=${sysctl_dir}"ehco.service"
 	elif [ $release = "Ubuntu" ]
 	then
-		apt-get install wget -		
+		apt-get install wget		
                 sysctl_dir="/lib/systemd/system/"
 		full_sysctl_dir=${sysctl_dir}"ehco.service"
 	else
@@ -105,7 +105,7 @@ function check_file() {
     chmod -R 777 /usr/lib/systemd/system
   fi
 }
-function check_nor_file() 
+function check_nor_file() {
   check_sys
   rm -rf "$(pwd)"/ehco
   rm -rf "$(pwd)"/ehco.service
