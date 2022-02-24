@@ -1,10 +1,12 @@
 #!/bin/bash
-
+Info="${Green_font_prefix}[信息]${Font_color_suffix}"
+Error="${Red_font_prefix}[错误]${Font_color_suffix}"
 #	Github: https://github.com/owogo/easyehco
 #=================================================================
 ehco_conf_path="/etc/ehco/config.json"
 raw_conf_path="/etc/ehco/rawconf"
-
+red='\033[0;31m'
+plain='\033[0m'
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Font_color_suffix="\033[0m"
 #确保本脚本在ROOT下运行
@@ -428,7 +430,7 @@ cron_restart() {
   fi
 }
 
-echo && echo -e "            ehco 一键安装配置脚本"${Red_font_prefix}[${shell_version}]${Font_color_suffix}"
+echo && echo -e "            ehco 一键安装配置脚本
   功能: 1.tcp+udp不加密转发, 2.中转机加密转发, 3.落地机解密对接转发
   帮助文档：https://github.com/owogo/EasyEhco
  ${Green_font_prefix}1.${Font_color_suffix} 安装 ehco
