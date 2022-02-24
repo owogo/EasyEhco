@@ -104,7 +104,7 @@ function check_nor_file() {
   rm -rf /etc/ehco
   rm -rf /usr/lib/systemd/system/ehco.service
   rm -rf /usr/bin/ehco
-
+}
  function Install_ct() {
   check_nor_file
   check_file
@@ -153,7 +153,7 @@ function Restart_ct() {
   conflast
   systemctl restart ehco
   echo "已重读配置并重启"
-
+}
 function read_protocol() {
   echo -e "请问您要设置哪种功能: "
   echo -e "-----------------------------------"
@@ -296,6 +296,7 @@ function read_d_port() {
   echo -e "------------------------------------------------------------------"
   echo -e "请问你要将本机从${flag_b}接收到的流量转发向${flag_c}的哪个端口?"
   read -p "请输入: " flag_d
+}
 function writerawconf() {
   echo $flag_a"/""$flag_b""#""$flag_c""#""$flag_d" >>$raw_conf_path
 }
@@ -305,6 +306,7 @@ function rawconf() {
   read_d_ip
   read_d_port
   writerawconf
+}
 function eachconf_retrieve() {
   d_server=${trans_conf#*#}
   d_port=${d_server#*#}
