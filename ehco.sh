@@ -54,13 +54,19 @@ check_sys(){
 	
 	if [ $release = "Centos" ]
 	then
-		yum -y install wget
+		yum -y install wge		
+                sysctl_dir="/usr/lib/systemd/system/"
+		full_sysctl_dir=${sysctl_dir}"ehco.service"
 	elif [ $release = "Debian" ]
 	then
-		apt-get install wget -y
+		apt-get install wget -		
+                sysctl_dir="/etc/systemd/system/"
+		full_sysctl_dir=${sysctl_dir}"ehco.service"
 	elif [ $release = "Ubuntu" ]
 	then
-		apt-get install wget -y
+		apt-get install wget -		
+                sysctl_dir="/lib/systemd/system/"
+		full_sysctl_dir=${sysctl_dir}"ehco.service"
 	else
 		echo -e "[${red}错误${plain}]不支持当前系统"
 		exit 1
@@ -99,12 +105,13 @@ function check_file() {
     chmod -R 777 /usr/lib/systemd/system
   fi
 }
-function check_nor_file() {
+function check_nor_file() 
+  check_sys
   rm -rf "$(pwd)"/ehco
   rm -rf "$(pwd)"/ehco.service
   rm -rf "$(pwd)"/config.json
   rm -rf /etc/ehco
-  rm -rf /usr/lib/systemd/system/ehco.service
+  rm -rf full_sysctl_dir
   rm -rf /usr/bin/ehco
 }
  function Install_ct() {
@@ -117,7 +124,7 @@ function check_nor_file() {
   chmod +x ehco
   mv ehco /usr/bin
   chmod -R 777 /usr/bin/ehco
-  wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/ehco.service && chmod -R 777 ehco.service && mv ehco.service /usr/lib/systemd/system
+  wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/ehco.service && chmod -R 777 ehco.service && mv ehco.service $sysctl_dir
   mkdir /etc/ehco && wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/config.json && mv config.json /etc/ehco && chmod -R 777 /etc/ehco
   systemctl daemon-reload
   systemctl start ehco.service
