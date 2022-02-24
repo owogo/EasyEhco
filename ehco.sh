@@ -336,7 +336,7 @@ function conflast() {
 
 function multiconflast() {
   if [ $i -eq $count_line ]; then
-    echo "        }" >>$ehco_conf_path
+    echo "        }," >>$ehco_conf_path
   else
     echo "        }," >>$ehco_conf_path
   fi
