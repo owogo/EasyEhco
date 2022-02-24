@@ -331,8 +331,6 @@ function eachconf_retrieve() {
 }
 function confstart() {
   echo "{
-  \"web_port\": 9000,
-  \"web_token\": \"\",
   \"enable_ping\": false,
 
   \"relay_configs\": [ " >>$ehco_conf_path
