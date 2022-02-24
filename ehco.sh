@@ -232,45 +232,45 @@ function decrypt() {
 function method() {
   if [ $i -ge 1 ]; then
     if [ "$is_encrypt" == "nonencrypt" ]; then
-      echo "   \"listen\": \"127.0.0.1:$s_port\",
+      echo "   \"listen\": \"0.0.0.0:$s_port\",
       \"listen_type\": \"raw\",
       \"transport_type\": \"raw\",
       \"tcp_remotes\": [\"$d_ip:$d_port\"],
       \"udp_remotes\": [\"$d_ip:$d_port\"]" >>$ehco_conf_path
     elif [ "$is_encrypt" == "encryptws" ]; then
-      echo "   \"listen\": \"127.0.0.1:$s_port\",
+      echo "   \"listen\": \"0.0.0.0:$s_port\",
       \"listen_type\": \"raw\",
       \"transport_type\": \"ws\",
       \"tcp_remotes\": [\"ws://$d_ip:$d_port\"],
       \"udp_remotes\": [\"ws://$d_ip:$d_port\"]" >>$ehco_conf_path
     elif [ "$is_encrypt" == "encryptwss" ]; then
-      echo "   \"listen\": \"127.0.0.1:$s_port\",
+      echo "   \"listen\": \"0.0.0.0:$s_port\",
       \"listen_type\": \"raw\",
       \"transport_type\": \"wss\",
       \"tcp_remotes\": [\"wss://$d_ip:$d_port\"],
       \"udp_remotes\": [\"wss://$d_ip:$d_port\"]" >>$ehco_conf_path
     
 	elif [ "$is_encrypt" == "encryptmwss" ]; then
-      echo "   \"listen\": \"127.0.0.1:$s_port\",
+      echo "   \"listen\": \"0.0.0.0:$s_port\",
       \"listen_type\": \"raw\",
       \"transport_type\": \"mwss\",
       \"tcp_remotes\": [\"wss://$d_ip:$d_port\"],
       \"udp_remotes\": [\"wss://$d_ip:$d_port\"]" >>$ehco_conf_path
     
     elif [ "$is_encrypt" == "decryptws" ]; then
-      echo "   \"listen\": \"127.0.0.1:$s_port\",
+      echo "   \"listen\": \"0.0.0.0:$s_port\",
       \"listen_type\": \"ws\",
       \"transport_type\": \"raw\",
       \"tcp_remotes\": [\"$d_ip:$d_port\"],
       \"udp_remotes\": [\"$d_ip:$d_port\"]" >>$ehco_conf_path
     elif [ "$is_encrypt" == "decryptwss" ]; then
-      echo "   \"listen\": \"127.0.0.1:$s_port\",
+      echo "   \"listen\": \"0.0.0.0:$s_port\",
       \"listen_type\": \"wss\",
       \"transport_type\": \"raw\",
       \"tcp_remotes\": [\"$d_ip:$d_port\"],
       \"udp_remotes\": [\"$d_ip:$d_port\"]" >>$ehco_conf_path
     elif [ "$is_encrypt" == "decryptmwss" ]; then
-      echo "   \"listen\": \"127.0.0.1:$s_port\",
+      echo "   \"listen\": \"0.0.0.0:$s_port\",
       \"listen_type\": \"mwss\",
       \"transport_type\": \"raw\",
       \"tcp_remotes\": [\"$d_ip:$d_port\"],
