@@ -324,8 +324,7 @@ function confstart() {
   \"web_token\": \"\",
   \"enable_ping\": false,
 
-  \"relay_configs\": [
-  {  " >>$ehco_conf_path
+  \"relay_configs\": [ " >>$ehco_conf_path
 }
 function multiconfstart() {
   echo "        {   ">>$ehco_conf_path
@@ -349,7 +348,9 @@ function writeconf() {
     if [ $i -eq 1 ]; then
       trans_conf=$(sed -n "${i}p" $raw_conf_path)
       eachconf_retrieve
+      multiconfstart
       method
+      multiconflast
     elif [ $i -gt 1 ]; then
       trans_conf=$(sed -n "${i}p" $raw_conf_path)
       eachconf_retrieve
