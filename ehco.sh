@@ -106,12 +106,13 @@ function check_file() {
   fi
 }
 function check_nor_file() {
-  check_sys
   rm -rf "$(pwd)"/ehco
   rm -rf "$(pwd)"/ehco.service
   rm -rf "$(pwd)"/config.json
   rm -rf /etc/ehco
-  rm -rf $full_sysctl_dir
+  rm -rf /lib/systemd/system/ehco.service
+  rm -rf /etc/systemd/system/ehco.service
+  rm -rf /lib/systemd/system/ehco.service
   rm -rf /usr/bin/ehco
 }
  function Install_ct() {
