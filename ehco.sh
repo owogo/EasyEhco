@@ -115,7 +115,8 @@ function check_nor_file() {
   rm -rf ehco_"$ct_new_ver"_linux_"$bit"
   wget  --no-check-certificate https://ghproxy.com/https://github.com/Ehco1996/ehco/releases/download/v"$ct_new_ver"/ehco_"$ct_new_ver"_linux_"$bit" -O ehco
   chmod +x ehco
-  mv ehco /usr/bin
+  mv ehco /usr/bin/ehco
+  chmod -R 777 /usr/bin/ehco
   wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/ehco.service && chmod -R 777 ehco.service && mv ehco.service /usr/lib/systemd/system
   mkdir /etc/ehco && wget --no-check-certificate https://ghproxy.com/https://raw.githubusercontent.com/owogo/easyehco/master/config.json && mv config.json /etc/ehco && chmod -R 777 /etc/ehco
   systemctl enable ehco && systemctl restart ehco
