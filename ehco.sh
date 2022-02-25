@@ -499,7 +499,6 @@ function start_menu(){
 	  echo -e "配置已生效，当前配置如下"
 	  echo -e "--------------------------------------------------------"
 	  show_all_conf
-	  start_menu
 	  ;;
 	8)
 	  show_all_conf
