@@ -117,8 +117,8 @@ function check_nor_file() {
 }
  function Install_ct() {
   check_nor_file
+  check_sys  
   check_file
-  check_sys
   check_new_ver
   rm -rf ehco_"$ct_new_ver"_linux_"$bit"
   wget  --no-check-certificate https://github.com/Ehco1996/ehco/releases/download/v"$ct_new_ver"/ehco_"$ct_new_ver"_linux_"$bit" -O ehco
