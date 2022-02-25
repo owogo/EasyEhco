@@ -1,4 +1,4 @@
-# EasyEhc
+# EasyEhco
 Ehco一键脚本
 
 A simple script to use Ehco Tunnel
