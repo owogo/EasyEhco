@@ -1,5 +1,6 @@
 # EasyEhc
 Ehco一键脚本
+
 A simple script to use Ehco Tunnel
 ## 国内中转可用
 ```bash
