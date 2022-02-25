@@ -503,7 +503,6 @@ function start_menu(){
 	  ;;
 	8)
 	  show_all_conf
-	  start_menu
 	  ;;
 	9)
 	  show_all_conf
