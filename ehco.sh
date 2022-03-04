@@ -1,4 +1,6 @@
 #!/bin/bash
+#脚本版本
+Shell_Version="0.0.1"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
 Error="${Red_font_prefix}[错误]${Font_color_suffix}"
 #	Github: https://github.com/owogo/easyehco
@@ -93,7 +95,7 @@ function checknew() {
 function check_new_ver() {
   ct_new_ver=$(wget --no-check-certificate -qO- -t2 -T3 https://api.github.com/repos/ehco1996/ehco/releases/latest | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g;s/v//g')
   if [[ -z ${ct_new_ver} ]]; then
-    ct_new_ver="1.1.1"
+    ct_new_ver=$(ehco -v | awk -F " " '{print $3}')
     echo -e "${Error} ehco 最新版本获取失败，正在下载v${ct_new_ver}版"
   else
     echo -e "${Info} ehco 目前最新版本为 ${ct_new_ver}"
@@ -145,21 +147,26 @@ function check_nor_file() {
     rm -rf "$(pwd)"/config.json
     rm -rf "$(pwd)"/ehco.sh
   fi
+  sleep 3s
+  start_menu
 }
 function Uninstall_ct() {
   rm -rf /usr/bin/ehco
   rm -rf $full_sysctl_dir
   rm -rf /etc/ehco
-  rm -rf "$(pwd)"/ehco.sh
   echo "ehco已经成功删除"
 }
 function Start_ct() {
   systemctl start ehco.service
   echo "已启动"
+  sleep 3s
+  start_menu
 }
 function Stop_ct() {
   systemctl stop ehco.service
   echo "已停止"
+  sleep 3s
+  start_menu
 }
 function Restart_ct() {
   rm -rf /etc/ehco/config.json
@@ -168,6 +175,8 @@ function Restart_ct() {
   conflast
   systemctl restart ehco.service
   echo "已重读配置并重启"
+  sleep 3s
+  start_menu
 }
 function read_protocol() {
   echo -e "请问您要设置哪种功能: "
@@ -304,8 +313,11 @@ function read_d_ip() {
   echo -e "------------------------------------------------------------------"
   echo -e "请问你要将本机从${flag_b}接收到的流量转发向哪个IP或域名?"
   echo -e "注: IP既可以是[远程机器/当前机器]的公网IP, 也可是以本机本地回环IP(即127.0.0.1)"
-  echo -e "具体IP地址的填写, 取决于接收该流量的服务正在监听的IP"
+  echo -e "具体IP地址的填写, 取决于接收该流量的服务正在监听的IP,默认为127.0.0.1"
   read -p "请输入: " flag_c
+  if [ ! -n "$flag_c" ]; then
+          flag_c="127.0.0.1"		
+  fi
 }
 function read_d_port() {
   echo -e "------------------------------------------------------------------"
@@ -470,11 +482,9 @@ function start_menu(){
 	  ;;
 	1)
 	  Install_ct
-	  start_menu
 	  ;;
 	2)
 	  checknew
-	  start_menu
 	  ;;
 	3)
 	  Uninstall_ct
@@ -487,7 +497,6 @@ function start_menu(){
 	  ;;
 	6)
 	  Restart_ct
-	  start_menu
 	  ;;
 	7)
 	  rawconf
@@ -517,13 +526,14 @@ function start_menu(){
 	  else
 		echo "请输入正确数字"
 	  fi
+	  sleep 3s
+          start_menu
 	  ;;
 	10)
 	  cron_restart
 	  ;;
 	*)
 	  echo "请输入正确数字"
-	  start_menu
 	  ;;
 	esac
 }
