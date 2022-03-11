@@ -43,7 +43,7 @@ check_sys(){
 	if [[ ${bit} = "x86_64" ]]; then
 		bit="amd64"
 	else
-		bit="arm"
+		bit="arm64"
 	fi
 	
 	#判断内核版本
