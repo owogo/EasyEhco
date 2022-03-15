@@ -473,9 +473,10 @@ function start_menu(){
 	 ${Green_font_prefix}9.${Font_color_suffix} 删除一则ehco配置
 	————————————
 	 ${Green_font_prefix}10.${Font_color_suffix} ehco定时重启配置
+	 ${Green_font_prefix}11.${Font_color_suffix} 更新脚本
 
 	————————————" && echo
-	read -e -p " 请输入数字 [1-10]:" num
+	read -e -p " 请输入数字 [0-11]:" num
 	case "$num" in
 	0)
 	  exit 1
@@ -531,6 +532,10 @@ function start_menu(){
 	  ;;
 	10)
 	  cron_restart
+	  ;;
+	11)
+	  rm ehco.sh
+	  wget -O ehco.sh https://raw.githubusercontent.com/owogo/EasyEhco/main/ehco.sh && bash ehco.sh
 	  ;;
 	*)
 	  echo "请输入正确数字"
