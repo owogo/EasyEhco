@@ -399,7 +399,7 @@ function show_all_conf() {
       str="  ws隧道 "
     elif [ "$is_encrypt" == "encryptwss" ]; then
       str=" wss隧道 "
-    elif [ "$is_encrypt" == "encryptwss" ]; then
+    elif [ "$is_encrypt" == "encryptmwss" ]; then
       str=" mwss隧道 "
     elif [ "$is_encrypt" == "decryptws" ]; then
       str="  ws解密 "
